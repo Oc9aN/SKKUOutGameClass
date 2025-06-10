@@ -13,23 +13,11 @@ public class AchievementDTO
 
     // 메타 정보만 저장하는 생성자
     public AchievementDTO(
-        string id,
-        string name,
-        string description,
-        EAchievementCondition condition,
-        int goalValue,
-        ECurrencyType rewardCurrencyType,
-        int rewardAmount)
+        string id, int currentValue, bool rewardClaimed)
     {
         ID = id;
-        Name = name;
-        Description = description;
-        Condition = condition;
-        GoalValue = goalValue;
-        RewardCurrencyType = rewardCurrencyType;
-        RewardAmount = rewardAmount;
-        CurrentValue = 0;
-        RewardClaimed = false;
+        CurrentValue = currentValue;
+        RewardClaimed = rewardClaimed;
     }
 
     // Achievement 객체에서 전체 상태 복사
@@ -45,7 +33,7 @@ public class AchievementDTO
         CurrentValue = achievement.CurrentValue;
         RewardClaimed = achievement.RewardClaimed;
     }
-    
+
     public bool CanClaimReward()
     {
         return RewardClaimed == false && CurrentValue >= GoalValue;

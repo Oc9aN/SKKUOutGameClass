@@ -15,6 +15,9 @@ public class AchievementManager : MonoBehaviour
     public List<AchievementDTO> Achievements => _achievements.ConvertAll(x => new AchievementDTO(x));
 
     public event Action OnDataChanged;
+    public event Action<AchievementDTO> OnNewAchievementCanRewarded;
+    
+    private AchievementRepository _repository;
 
     private void Awake()
     {
@@ -34,13 +37,31 @@ public class AchievementManager : MonoBehaviour
     private void Init()
     {
         // 초기화
-        
         _achievements = new List<Achievement>();
         
+        // 저장소
+        _repository = new AchievementRepository();
+        List<AchievementDTO> loadedAchievementDtos = _repository.Load();
         foreach (var meta in _metaDatas)
         {
-            _achievements.Add(new Achievement(meta));
+            Achievement duplicateAchievement = FindById(meta.ID);
+            if (duplicateAchievement != null)
+            {
+                throw new Exception($"업적 ID({meta.ID})가 중복됩니다.");
+            }
+            
+            AchievementDTO saveData = loadedAchievementDtos?.Find(x => x.ID == meta.ID) ?? null;
+
+            // 저장 데이터에 따라 상태 셋팅
+            Achievement achievement = new Achievement(meta, saveData);
+            
+            _achievements.Add(achievement);
         }
+    }
+
+    private Achievement FindById(string id)
+    {
+        return _achievements.Find(x => x.ID == id);
     }
 
     public void Increase(EAchievementCondition condition, int value)
@@ -49,7 +70,18 @@ public class AchievementManager : MonoBehaviour
         {
             if (achievement.Condition == condition)
             {
+                bool prevCanClaimReward = achievement.CanClaimReward();
                 achievement.Increase(value);
+                bool canClaimReward = achievement.CanClaimReward();
+                
+                _repository.Save(Achievements);
+
+                if (prevCanClaimReward == false && canClaimReward)
+                {
+                    // 이번 기회에 도전 과정 달성인 경우
+                    // 알람
+                    OnNewAchievementCanRewarded?.Invoke(new AchievementDTO(achievement));
+                }
             }
         }
         
@@ -67,6 +99,8 @@ public class AchievementManager : MonoBehaviour
         if (achievement.TryClaimReward())
         {
             CurrencyManager.Instance.Add(achievement.RewardCurrencyType, achievement.RewardAmount);
+            
+            _repository.Save(Achievements);
             
             OnDataChanged?.Invoke();
             
