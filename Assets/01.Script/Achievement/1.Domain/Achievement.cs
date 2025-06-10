@@ -61,7 +61,7 @@ public class Achievement
         RewardAmount = metaData.RewardAmount;
     }
 
-    public void Invrease(int value)
+    public void Increase(int value)
     {
         if (value <= 0)
         {
@@ -69,5 +69,20 @@ public class Achievement
         }
 
         _currentValue += value;
+    }
+
+    public bool CanClaimReward()
+    {
+        return _rewardClaimed == false && _currentValue >= GoalValue;
+    }
+
+    public bool TryClaimReward()
+    {
+        if (!CanClaimReward())
+        {
+            return false;
+        }
+        _rewardClaimed = true;
+        return true;
     }
 }

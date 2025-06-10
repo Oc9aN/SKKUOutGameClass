@@ -73,6 +73,7 @@ public class CurrencyManager : MonoBehaviour
         _currencies[type].Add(value);
         
         // 다양한 이유로 여기에 규칙이 들어가기도한다.
+        AchievementManager.instance.Increase(EAchievementCondition.GoldCollect, value);
 
         _repository.Save(ToDtoList());
         
