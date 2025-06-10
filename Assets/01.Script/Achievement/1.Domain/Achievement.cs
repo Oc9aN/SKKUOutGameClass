@@ -25,7 +25,7 @@ public class Achievement
     private bool _rewardClaimed;
     public bool RewardClaimed => _rewardClaimed;
 
-    public Achievement(AchievementSO metaData, AchievementDTO saveData)
+    public Achievement(AchievementSO metaData, AchievementSaveData saveData)
     {
         if (string.IsNullOrEmpty(metaData.ID))
         {

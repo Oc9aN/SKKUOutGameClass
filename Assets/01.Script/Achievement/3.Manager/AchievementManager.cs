@@ -41,7 +41,7 @@ public class AchievementManager : MonoBehaviour
         
         // 저장소
         _repository = new AchievementRepository();
-        List<AchievementDTO> loadedAchievementDtos = _repository.Load();
+        List<AchievementSaveData> loadedAchievementDatas = _repository.Load();
         foreach (var meta in _metaDatas)
         {
             Achievement duplicateAchievement = FindById(meta.ID);
@@ -50,7 +50,7 @@ public class AchievementManager : MonoBehaviour
                 throw new Exception($"업적 ID({meta.ID})가 중복됩니다.");
             }
             
-            AchievementDTO saveData = loadedAchievementDtos?.Find(x => x.ID == meta.ID) ?? null;
+            AchievementSaveData saveData = loadedAchievementDatas?.Find(x => x.ID == meta.ID) ?? null;
 
             // 저장 데이터에 따라 상태 셋팅
             Achievement achievement = new Achievement(meta, saveData);
