@@ -9,6 +9,7 @@ public class UI_Achievement : MonoBehaviour
     [SerializeField]
     private InfiniteScroll _scroll;
 
+    // 구조상 UI데이터 저장 및 DTO를 변환 필요
     private List<UI_AchievementSlotData> _achievementData;
 
     private void Start()
@@ -31,6 +32,7 @@ public class UI_Achievement : MonoBehaviour
                 _scroll.InsertData(_achievementData.Last());
             }
 
+            // 인게임 중 바뀌는 값만 수정해서 전달
             _achievementData[i].CurrentValue = achievements[i].CurrentValue;
             _achievementData[i].RewardClaimed = achievements[i].RewardClaimed;
             _scroll.UpdateData(_achievementData[i]);

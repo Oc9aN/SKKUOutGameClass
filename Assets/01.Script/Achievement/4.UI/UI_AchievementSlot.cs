@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class UI_AchievementSlotData : InfiniteScrollData
 {
+    // 인게임 중에 안바뀌는 값
     public readonly string ID;
     public readonly string Name;
     public readonly string Description;
