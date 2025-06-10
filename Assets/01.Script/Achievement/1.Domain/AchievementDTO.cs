@@ -1,3 +1,5 @@
+using Gpm.Ui;
+
 public class AchievementDTO
 {
     public readonly string ID;
@@ -32,6 +34,29 @@ public class AchievementDTO
         RewardAmount = achievement.RewardAmount;
         CurrentValue = achievement.CurrentValue;
         RewardClaimed = achievement.RewardClaimed;
+    }
+    
+    // 전체 필드를 직접 입력하는 생성자
+    public AchievementDTO(
+        string id,
+        string name,
+        string description,
+        EAchievementCondition condition,
+        int goalValue,
+        ECurrencyType rewardCurrencyType,
+        int rewardAmount,
+        int currentValue,
+        bool rewardClaimed)
+    {
+        ID = id;
+        Name = name;
+        Description = description;
+        Condition = condition;
+        GoalValue = goalValue;
+        RewardCurrencyType = rewardCurrencyType;
+        RewardAmount = rewardAmount;
+        CurrentValue = currentValue;
+        RewardClaimed = rewardClaimed;
     }
 
     public bool CanClaimReward()
