@@ -45,7 +45,9 @@ public class CurrencyManager : MonoBehaviour
         _repository = new CurrencyRepository();
 
         // 이후 열거형이 추가되더라도 알아서 잘 삽입되게 변경 완료
-        List<CurrencyDTO> loadedCurrencies = _repository.Load();
+        // TODO
+        // List<CurrencyDTO> loadedCurrencies = _repository.Load(AccountManager.instance.CurrentAccount.Email);
+        List<CurrencyDTO> loadedCurrencies = _repository.Load("");
         for (int i = 0; i < (int)ECurrencyType.Count; ++i)
         {
             ECurrencyType type = (ECurrencyType)i;
@@ -75,7 +77,8 @@ public class CurrencyManager : MonoBehaviour
         // 다양한 이유로 여기에 규칙이 들어가기도한다.
         AchievementManager.instance.Increase(EAchievementCondition.GoldCollect, value);
 
-        _repository.Save(ToDtoList());
+        _repository.Save(ToDtoList(), "");
+        // _repository.Save(ToDtoList(), AccountManager.instance.CurrentAccount.Email);
         
         OnDataChanged?.Invoke();
     }
@@ -88,7 +91,8 @@ public class CurrencyManager : MonoBehaviour
             return false;
         }
         
-        _repository.Save(ToDtoList());
+        _repository.Save(ToDtoList(), "");
+        // _repository.Save(ToDtoList(), AccountManager.instance.CurrentAccount.Email);
 
         OnDataChanged?.Invoke();
 

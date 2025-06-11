@@ -10,7 +10,7 @@ public class CurrencyRepository
     private const string SAVE_KEY = nameof(CurrencyRepository);
     
     // Save
-    public void Save(List<CurrencyDTO> dataList)
+    public void Save(List<CurrencyDTO> dataList, string email)
     {
         CurrencySaveDatas datas = new CurrencySaveDatas();
         datas.DataList = dataList.ConvertAll(data => new CurrencySaveData
@@ -20,21 +20,21 @@ public class CurrencyRepository
         });           
 
         string json = JsonUtility.ToJson(datas);
-        PlayerPrefs.SetString(SAVE_KEY, json);
+        PlayerPrefs.SetString(SAVE_KEY + "_" + email, json);
     }
    
     // Load
-    public List<CurrencyDTO> Load()
+    public List<CurrencyDTO> Load(string email)
     {
-        if (!PlayerPrefs.HasKey(SAVE_KEY))
+        if (!PlayerPrefs.HasKey(SAVE_KEY + "_" + email))
         {
             return null;
         }
 
-        string json = PlayerPrefs.GetString(SAVE_KEY);
+        string json = PlayerPrefs.GetString(SAVE_KEY + "_" + email);
         CurrencySaveDatas datas = JsonUtility.FromJson<CurrencySaveDatas>(json);
 
-        return datas.DataList.ConvertAll<CurrencyDTO>(data => new CurrencyDTO(data.Type, data.Value));
+        return datas.DataList.ConvertAll(data => new CurrencyDTO(data.Type, data.Value));
     }
 }
 

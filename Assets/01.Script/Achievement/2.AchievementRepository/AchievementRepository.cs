@@ -6,7 +6,7 @@ public class AchievementRepository
 {
     private const string SAVE_KEY = nameof(AchievementRepository);
 
-    public void Save(List<AchievementDTO> achievements)
+    public void Save(List<AchievementDTO> achievements, string email)
     {
         AchievementSaveDataList datas = new AchievementSaveDataList();
         datas.Achievements = achievements.ConvertAll(data => new AchievementSaveData
@@ -17,17 +17,17 @@ public class AchievementRepository
         });
         
         string json = JsonUtility.ToJson(datas);
-        PlayerPrefs.SetString(SAVE_KEY, json);
+        PlayerPrefs.SetString(SAVE_KEY + "_" + email, json);
     }
 
-    public List<AchievementSaveData> Load()
+    public List<AchievementSaveData> Load(string email)
     {
-        if (!PlayerPrefs.HasKey(SAVE_KEY))
+        if (!PlayerPrefs.HasKey(SAVE_KEY + "_" + email))
         {
             return null;
         }
 
-        string json = PlayerPrefs.GetString(SAVE_KEY);
+        string json = PlayerPrefs.GetString(SAVE_KEY + "_" + email);
         AchievementSaveDataList datas = JsonUtility.FromJson<AchievementSaveDataList>(json);
 
         return datas.Achievements;

@@ -41,7 +41,9 @@ public class AchievementManager : MonoBehaviour
         
         // 저장소
         _repository = new AchievementRepository();
-        List<AchievementSaveData> loadedAchievementDatas = _repository.Load();
+        // TODO
+        // List<AchievementSaveData> loadedAchievementDatas = _repository.Load(AccountManager.instance.CurrentAccount.Email);
+        List<AchievementSaveData> loadedAchievementDatas = _repository.Load("");
         foreach (var meta in _metaDatas)
         {
             Achievement duplicateAchievement = FindById(meta.ID);
@@ -74,8 +76,9 @@ public class AchievementManager : MonoBehaviour
                 achievement.Increase(value);
                 bool canClaimReward = achievement.CanClaimReward();
                 
-                _repository.Save(Achievements);
-
+                _repository.Save(Achievements, "");
+                // _repository.Save(Achievements, AccountManager.instance.CurrentAccount.Email);
+                
                 if (prevCanClaimReward == false && canClaimReward)
                 {
                     // 이번 기회에 도전 과정 달성인 경우
@@ -100,7 +103,8 @@ public class AchievementManager : MonoBehaviour
         {
             CurrencyManager.Instance.Add(achievement.RewardCurrencyType, achievement.RewardAmount);
             
-            _repository.Save(Achievements);
+            _repository.Save(Achievements, "");
+            // _repository.Save(Achievements, AccountManager.instance.CurrentAccount.Email);
             
             OnDataChanged?.Invoke();
             
