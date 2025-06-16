@@ -20,3 +20,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ddb3eb8d9981a9e4f81d3ed3ddfb2a5e, type: 2}
   - {fileID: 11400000, guid: 4419400c4b9ba114391e7b40c6f12bf5, type: 2}
   - {fileID: 11400000, guid: a440ef0b34b67ef41baf8191ff448e13, type: 2}
+  StartDate: 2025-06-16
+  DeadlineDate: 2025-07-01

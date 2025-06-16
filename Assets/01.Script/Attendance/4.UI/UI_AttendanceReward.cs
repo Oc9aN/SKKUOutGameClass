@@ -12,6 +12,8 @@ public class UI_AttendanceReward : MonoBehaviour
     private Image _receiveImage;
     
     private AttendanceRewardDTO _achievementRewardDto;
+    
+    public event Action OnAttendanceChanged;
 
     private void Awake()
     {
@@ -38,5 +40,6 @@ public class UI_AttendanceReward : MonoBehaviour
         }
         
         AttendanceManager.instance.TryReceiveReward(_achievementRewardDto);
+        OnAttendanceChanged?.Invoke();
     }
 }

@@ -5,10 +5,11 @@ using System.Collections.Generic;
 public class AttendanceDTO
 {
     public EAttendanceChannel AttendanceChannel;
+    public DateTime StartTime;
     public List<AttendanceRewardDTO> Rewards;
-    public string LastReceivedDate;    // ISO 8601 문자열 (예: "2025-06-11")
+    public DateTime LastReceivedDate;    // ISO 8601 문자열 (예: "2025-06-11")
     public int ConsecutiveCount;
-    public string DeadlineDate;        // ISO 8601 문자열
+    public DateTime DeadlineDate;        // ISO 8601 문자열
     public int AttendanceCount;
 
     public AttendanceDTO(Attendance attendance)
@@ -20,18 +21,19 @@ public class AttendanceDTO
             Rewards.Add(new AttendanceRewardDTO(reward));
         }
 
-        LastReceivedDate = attendance.LastReceivedDate.ToString("yyyy-MM-dd");
+        StartTime = attendance.StartDate;
+        LastReceivedDate = attendance.LastReceivedDate;
         ConsecutiveCount = attendance.ConsecutiveCount;
-        DeadlineDate = attendance.DeadlineDate.ToString("yyyy-MM-dd");
+        DeadlineDate = attendance.DeadlineDate;
         AttendanceCount = attendance.AttendanceCount;
     }
     
     public AttendanceDTO(
         EAttendanceChannel attendanceChannel,
         List<AttendanceRewardDTO> rewards,
-        string lastReceivedDate,
+        DateTime lastReceivedDate,
         int consecutiveCount,
-        string deadlineDate,
+        DateTime deadlineDate,
         int attendanceCount)
     {
         AttendanceChannel = attendanceChannel;

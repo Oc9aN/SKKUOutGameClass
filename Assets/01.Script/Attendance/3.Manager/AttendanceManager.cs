@@ -20,7 +20,7 @@ public class AttendanceManager : MonoBehaviour
 
     private void Awake()
     {
-        // PlayerPrefs.DeleteAll();
+        PlayerPrefs.DeleteAll();
         if (instance == null)
         {
             instance = this;
@@ -37,7 +37,7 @@ public class AttendanceManager : MonoBehaviour
     private void Init()
     {
         // 초기화
-        _attendanceList = new List<Attendance>();
+        _attendanceList = new List<Attendance>(_metaDatas.Count);
 
         _attendanceRepository = new AttendanceRepository();
 
@@ -45,9 +45,9 @@ public class AttendanceManager : MonoBehaviour
 
         foreach (var meta in _metaDatas)
         {
-            var saveData = saveDatas?.Find(x => x.AttendanceChannel == meta.AttendanceChannel) ?? new AttendanceSaveData();
+            var saveData = saveDatas?.Find(x => x.AttendanceChannel == meta.AttendanceChannel);
 
-            var attendance = new Attendance(meta.AttendanceChannel, meta.Rewards, saveData, DateTime.Now.AddDays(_dayCheat));
+            var attendance = new Attendance(meta, saveData, DateTime.Now.AddDays(_dayCheat));
 
             _attendanceList.Add(attendance);
         }
@@ -62,6 +62,7 @@ public class AttendanceManager : MonoBehaviour
         {
             // 보상 수령
             CurrencyManager.Instance.Add(reward.RewardCurrencyType, reward.RewardAmount);
+            Debug.Log($"Received reward: {reward.RewardCurrencyType}, {reward.RewardAmount}");
 
             OnAttendanceChanged?.Invoke();
             
@@ -76,8 +77,18 @@ public class AttendanceManager : MonoBehaviour
         }
     }
 
-    public AttendanceDTO GetAttendanceDtoByType(EAttendanceChannel channel)
+    public AttendanceDTO GetAttendanceDto(EAttendanceChannel channel)
     {
         return _attendanceList.Find(x => x.AttendanceChannel == channel).ToDTO();
+    }
+
+    public bool IsAttendanceActive(EAttendanceChannel channel)
+    {
+        return _attendanceList.Find(x => x.AttendanceChannel == channel).StartDate < DateTime.Now.AddDays(_dayCheat);
+    }
+
+    public int GetRemainingDays(EAttendanceChannel channel)
+    {
+        return (_attendanceList.Find(x => x.AttendanceChannel == channel).DeadlineDate - DateTime.Now.AddDays(_dayCheat)).Days;
     }
 }

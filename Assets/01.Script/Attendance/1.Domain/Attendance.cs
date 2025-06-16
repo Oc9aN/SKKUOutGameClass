@@ -12,41 +12,47 @@ public enum EAttendanceChannel
 public class Attendance
 {
     // 데이터
+    public DateTime StartDate;  // 출석 시작일
     public readonly EAttendanceChannel AttendanceChannel;
     public readonly List<AttendanceReward> Rewards;
-    public DateTime LastReceivedDate; // 최근 보상 수령 일자
-    public int ConsecutiveCount;      // 연속 보상 수령 횟수
 
     public readonly DateTime DeadlineDate; // 출석 보상 기간
 
     // 상태
+    public DateTime LastReceivedDate; // 최근 보상 수령 일자
+    public int ConsecutiveCount;      // 연속 보상 수령 횟수
     private int _attendanceCount; // 출석 횟수
     public int AttendanceCount => _attendanceCount;
 
-    public Attendance(EAttendanceChannel attendanceChannel, List<AttendanceRewardSO> metaRewards, AttendanceSaveData saveData, DateTime today)
+    public Attendance(AttendanceSO meta, AttendanceSaveData saveData, DateTime today)
     {
-        if (metaRewards == null)
+        if (today.Date < StartDate)
+        {
+            throw new Exception("출석 시작일 이전입니다.");
+        }
+        if (meta == null)
         {
             throw new Exception("출석 보상 정보가 없습니다.");
         }
 
-        AttendanceChannel = attendanceChannel;
+        AttendanceChannel = meta.AttendanceChannel;
 
-        LastReceivedDate = DateTime.Parse(saveData.LastReceivedDate).Date; // 시간 제거
-        ConsecutiveCount = saveData.ConsecutiveCount;
-        DeadlineDate = DateTime.Parse(saveData.DeadlineDate);
-        _attendanceCount = saveData.AttendanceCount;
+        StartDate = DateTime.Parse(meta.StartDate);
+        LastReceivedDate = saveData != null ? DateTime.Parse(saveData.LastReceivedDate).Date : DateTime.MinValue.Date; // 시간 제거
+        ConsecutiveCount = saveData?.ConsecutiveCount ?? 0;
+        DeadlineDate = DateTime.Parse(meta.DeadlineDate);
+        _attendanceCount = saveData?.AttendanceCount ?? 0;
         
         Rewards = new List<AttendanceReward>();
-        for (int i = 0; i < metaRewards.Count; i++)
+        for (int i = 0; i < meta.Rewards.Count; i++)
         {
             Rewards.Add(new AttendanceReward(
                 AttendanceChannel,
-                metaRewards[i].Day,
-                metaRewards[i].RewardAmount,
-                metaRewards[i].RewardCurrencyType,
-                i >= saveData.AttendanceCount,
-                saveData.AttendanceCount == i && CanReceive(today)
+                meta.Rewards[i].Day,
+                meta.Rewards[i].RewardAmount,
+                meta.Rewards[i].RewardCurrencyType,
+                i >= _attendanceCount,
+                _attendanceCount == i && CanReceive(today)
             ));
         }
     }
@@ -75,7 +81,6 @@ public class Attendance
         var todayDate = today.Date;
         if (!CanReceive(todayDate))
         {
-            //throw new Exception("이미 오늘 보상을 수령했습니다.");
             return false;
         }
 
@@ -102,7 +107,9 @@ public class Attendance
 
     // 하루에 2개 불가능 체크
     private bool CanReceive(DateTime today) =>
-        LastReceivedDate != today.Date;
+        (LastReceivedDate.Year <= today.Year &&
+         LastReceivedDate.Month <= today.Month &&
+         LastReceivedDate.Day < today.Day);
 
     private bool OnDeadline(DateTime today) =>
         DeadlineDate != today.Date;

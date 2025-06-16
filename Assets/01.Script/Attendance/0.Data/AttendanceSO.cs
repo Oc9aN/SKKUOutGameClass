@@ -9,6 +9,6 @@ public class AttendanceSO : ScriptableObject
     public List<AttendanceRewardSO> Rewards;
 
     [Header("출석 기간 설정")]
-    public DateTime StartDate;
-    public DateTime DeadlineDate;
+    public string StartDate;
+    public string DeadlineDate;
 }

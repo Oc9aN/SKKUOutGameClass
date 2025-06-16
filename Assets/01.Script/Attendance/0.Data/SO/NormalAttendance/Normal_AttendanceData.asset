@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e1d441ea3d8438f83b1ba20f4f7961b, type: 3}
   m_Name: Normal_AttendanceData
   m_EditorClassIdentifier: 
-  AttendanceChannel: 0
+  AttendanceChannel: Default_25Days
   Rewards:
   - {fileID: 11400000, guid: 748bf256411fde042a4ff570ac5592f8, type: 2}
   - {fileID: 11400000, guid: 44929c1a82c0d6f4fa06555f2793bacf, type: 2}
@@ -20,3 +20,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cdc1429103670f24f878812883e77730, type: 2}
   - {fileID: 11400000, guid: 56b19bd3b641bc147a1d2ef2add65134, type: 2}
   - {fileID: 11400000, guid: d133870a1b0f2b64db283d4bd4b4e5e7, type: 2}
+  StartDate: 2025-06-16
+  DeadlineDate: 2025-08-01

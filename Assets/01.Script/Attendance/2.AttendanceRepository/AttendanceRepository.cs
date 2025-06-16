@@ -12,9 +12,8 @@ public class AttendanceRepository
         datas.Attendances = attendance.ConvertAll(data => new AttendanceSaveData
         {
             AttendanceChannel = data.AttendanceChannel,
-            LastReceivedDate = data.LastReceivedDate,
+            LastReceivedDate = data.LastReceivedDate.ToString("dd-MM-yyyy"),
             ConsecutiveCount = data.ConsecutiveCount,
-            DeadlineDate = data.DeadlineDate,
             AttendanceCount = data.AttendanceCount,
         });
 
