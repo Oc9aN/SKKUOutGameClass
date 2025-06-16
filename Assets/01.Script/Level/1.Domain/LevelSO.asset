@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83ccdfab7e2026841931aab9cf84b332, type: 3}
+  m_Name: LevelSO
+  m_EditorClassIdentifier: 
+  initialMonsterAttack: 0
+  initialMonsterHealth: 0
+  initialSpawnInterval: 5
+  initialMaxSpawnCount: 10
+  initialLevelDuration: 5
+  initialEliteProbability: 0.3
+  monsterAttackIncrease: 30
+  monsterHealthIncrease: 20
+  spawnCycleDecrease: 1
+  maxSpawnCount: 1
+  levelDuration: -1
+  eliteProbability: 0.1

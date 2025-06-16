@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a17e423dd2acaaa48b65574e45cb3db2, type: 3}
+  m_Name: LevelSlotInfSO
+  m_EditorClassIdentifier: 
+  _levelSlots:
+  - MinLevel: 1
+    MaxLevel: 3
+    Color: {r: 0.20000002, g: 0.59607846, b: 0.15686275, a: 1}
+    Text: "\uC26C\uC6C0"
+  - MinLevel: 4
+    MaxLevel: 6
+    Color: {r: 0.5019608, g: 0.41176474, b: 0.17254902, a: 1}
+    Text: "\uC911\uAC04"
+  - MinLevel: 7
+    MaxLevel: 9
+    Color: {r: 0.43137258, g: 0.28627452, b: 0.17254902, a: 1}
+    Text: "\uC5B4\uB824\uC6C0"
+  - MinLevel: 10
+    MaxLevel: 12
+    Color: {r: 0.44705886, g: 0.17254902, b: 0.15686275, a: 1}
+    Text: "\uB9E4\uC6B0 \uC5B4\uB824\uC6C0"
+  - MinLevel: 13
+    MaxLevel: 15
+    Color: {r: 0.45882356, g: 0.15294118, b: 0.21568629, a: 1}
+    Text: "\uAD11\uAE30"
+  - MinLevel: 16
+    MaxLevel: 18
+    Color: {r: 0.27450982, g: 0.14901961, b: 0.2509804, a: 1}
+    Text: "\uBD88\uAC00\uB2A5"
+  - MinLevel: 19
+    MaxLevel: 21
+    Color: {r: 0.18431373, g: 0.16078432, b: 0.24705884, a: 1}
+    Text: "\uC5EC\uB7EC\uBD84\uC774 \uBCF4\uC5EC\uC694"
+  - MinLevel: 22
+    MaxLevel: 24
+    Color: {r: 0.019607844, g: 0.039215688, b: 0.03137255, a: 1}
+    Text: "\uB0B4\uAC00 \uAC04\uB2E4"
+  - MinLevel: 25
+    MaxLevel: 99
+    Color: {r: 0.019607844, g: 0.039215688, b: 0.03137255, a: 1}
+    Text: "\uD558\uD558\uD558\uD558"

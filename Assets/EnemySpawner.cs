@@ -16,12 +16,15 @@ public class EnemySpawner : MonoBehaviour
     {
         _currentTime += Time.deltaTime;
 
-        if (_currentTime >= REWPAWN_TIME)
+        var levelInfo = LevelManager.Instance.Level;
+        if (_currentTime >= REWPAWN_TIME + levelInfo.SpawnIntervalDecrease)
         {
             _currentTime = 0f;
+            
+            Debug.Log($"levelInfo: {levelInfo.CurrentLevel}");
 
             int enemyCount = GameObject.FindObjectsByType<EnemyController>(FindObjectsSortMode.None).Length;
-            if (enemyCount >= MAX_COUNT)
+            if (enemyCount >= levelInfo.MaxSpawnCount)
             {
                 return;
             }
