@@ -4,5 +4,8 @@
     <file url="file://$USER_HOME$/Downloads/Level (1).cs" charset="EUC-KR" />
     <file url="file://$PROJECT_DIR$/Assets/01.Script/Level/1.Domain/Level.cs" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Assets/01.Script/Level/1.Domain/LevelSO.cs" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Assets/01.Script/Ranking/1.Domain/Ranking.cs" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Assets/01.Script/Ranking/1.Domain/RankingEntry.cs" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Assets/01.Script/Ranking/2.Repository/RankingRepository.cs" charset="EUC-KR" />
   </component>
 </project>
