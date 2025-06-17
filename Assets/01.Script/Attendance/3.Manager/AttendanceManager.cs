@@ -20,7 +20,7 @@ public class AttendanceManager : MonoBehaviour
 
     private void Awake()
     {
-        PlayerPrefs.DeleteAll();
+        // PlayerPrefs.DeleteAll();
         if (instance == null)
         {
             instance = this;
@@ -41,7 +41,7 @@ public class AttendanceManager : MonoBehaviour
 
         _attendanceRepository = new AttendanceRepository();
 
-        List<AttendanceSaveData> saveDatas = _attendanceRepository.Load("");
+        List<AttendanceSaveData> saveDatas = _attendanceRepository.Load(AccountManager.instance.CurrentAccount.Email);
 
         foreach (var meta in _metaDatas)
         {
@@ -66,7 +66,7 @@ public class AttendanceManager : MonoBehaviour
 
             OnAttendanceChanged?.Invoke();
             
-            _attendanceRepository.Save(_attendanceList.ConvertAll(x => x.ToDTO()), "");
+            _attendanceRepository.Save(_attendanceList.ConvertAll(x => x.ToDTO()), AccountManager.instance.CurrentAccount.Email);
 
             return true;
         }

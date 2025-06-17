@@ -43,7 +43,7 @@ public class AchievementManager : MonoBehaviour
         _repository = new AchievementRepository();
         // TODO
         // List<AchievementSaveData> loadedAchievementDatas = _repository.Load(AccountManager.instance.CurrentAccount.Email);
-        List<AchievementSaveData> loadedAchievementDatas = _repository.Load("");
+        List<AchievementSaveData> loadedAchievementDatas = _repository.Load(AccountManager.instance.CurrentAccount.Email);
         foreach (var meta in _metaDatas)
         {
             Achievement duplicateAchievement = FindById(meta.ID);
@@ -76,7 +76,7 @@ public class AchievementManager : MonoBehaviour
                 achievement.Increase(value);
                 bool canClaimReward = achievement.CanClaimReward();
                 
-                _repository.Save(Achievements, "");
+                _repository.Save(Achievements, AccountManager.instance.CurrentAccount.Email);
                 // _repository.Save(Achievements, AccountManager.instance.CurrentAccount.Email);
                 
                 if (prevCanClaimReward == false && canClaimReward)
@@ -103,7 +103,7 @@ public class AchievementManager : MonoBehaviour
         {
             CurrencyManager.Instance.Add(achievement.RewardCurrencyType, achievement.RewardAmount);
             
-            _repository.Save(Achievements, "");
+            _repository.Save(Achievements, AccountManager.instance.CurrentAccount.Email);
             // _repository.Save(Achievements, AccountManager.instance.CurrentAccount.Email);
             
             OnDataChanged?.Invoke();

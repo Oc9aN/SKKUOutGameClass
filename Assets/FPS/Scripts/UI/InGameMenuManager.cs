@@ -34,6 +34,7 @@ namespace Unity.FPS.UI
         FramerateCounter m_FramerateCounter;
 
         public GameObject AchievementUI;
+        public GameObject AttendanceUI;
 
         void Start()
         {
@@ -119,6 +120,7 @@ namespace Unity.FPS.UI
                 EventSystem.current.SetSelectedGameObject(null);
                 
                 AchievementUI.SetActive(true);
+                AttendanceUI.SetActive(true);
             }
             else
             {
@@ -128,6 +130,7 @@ namespace Unity.FPS.UI
                 AudioUtility.SetMasterVolume(1);
                 
                 AchievementUI.SetActive(false);
+                AttendanceUI.SetActive(false);
             }
 
         }

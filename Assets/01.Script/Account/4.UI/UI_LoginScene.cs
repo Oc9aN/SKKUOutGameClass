@@ -161,7 +161,7 @@ public class UI_LoginScene : MonoBehaviour
 
         if (AccountManager.instance.TryLogin(email, pw))
         {
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene(3);
         }
     }
 
