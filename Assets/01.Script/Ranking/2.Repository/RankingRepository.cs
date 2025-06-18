@@ -1,122 +1,80 @@
 using System.Collections.Generic;
-using System;
-using UnityEngine;
-using System.Linq;
 
 public class RankingRepository
 {
-    private const string RankingKey = "Ranking_All";
-
-    // ��� �÷��̾��� ��ŷ ������ �ϳ��� ����Ʈ�� ����
-    public void SaveRanking(RankingEntry entry)
+    public List<RankingSaveData> Load()
     {
-        var allList = LoadAllRankingList();
-
-        // ���� �÷��̾� ��� ã��
-        var existing = allList.FirstOrDefault(e => e.PlayerNickname == entry.PlayerNickname);
-
-        bool updated = false;
-
-        if (existing != null)
+        // 데이터가 아직 없지만 ..
+        // 개발 단계에서 데이터가 필요하다면.. Mocking 기법을 쓴다.
+        // PlayerPrefs대신 '가짜 데이터 반환'
+        return new List<RankingSaveData>()
         {
-            // KillPoint(Score) ����
-            if (entry.Score > existing.Score)
-            {
-                existing.Score = entry.Score;
-                existing.AchievedAt = entry.AchievedAt;
-                updated = true;
-            }
-
-            // SurvivalTime ����
-            if (entry.SurvivalTime > existing.SurvivalTimeSeconds)
-            {
-                existing.SurvivalTimeSeconds = entry.SurvivalTime;
-                existing.AchievedAt = entry.AchievedAt;
-                updated = true;
-            }
-
-            // �� �� �� ���� ������ �������� ����
-            if (!updated)
-                return;
-        }
-        else
-        {
-            allList.Add(new RankingEntryDTO(entry));
-        }
-
-        // ����
-        string json = JsonUtility.ToJson(new RankingDTOListWrapper { List = allList });
-        PlayerPrefs.SetString(RankingKey, json);
-        PlayerPrefs.Save();
-    }
-
-
-    // ��ŷ Ÿ�Ժ��� �и��ؼ� ��ȯ
-    public List<RankingEntryDTO> LoadRankingList(RankingType rankingType)
-    {
-        var allList = LoadAllRankingList();
-
-        if (rankingType == RankingType.KillPoint)
-            return allList.Where(e => e.Score >= 0)
-                          .OrderByDescending(e => e.Score)
-                          .ToList();
-        else 
-            return allList.Where(e => e.SurvivalTimeSeconds >= 0)
-                          .OrderByDescending(e => e.SurvivalTimeSeconds)
-                          .ToList();
-    }
-
-    // ��ü ��ŷ ����Ʈ �ε� (���ο�)
-    private List<RankingEntryDTO> LoadAllRankingList()
-    {
-        if (!PlayerPrefs.HasKey(RankingKey))
-            return new List<RankingEntryDTO>();
-
-        string json = PlayerPrefs.GetString(RankingKey);
-        var wrapper = JsonUtility.FromJson<RankingDTOListWrapper>(json);
-        return wrapper?.List ?? new List<RankingEntryDTO>();
-    }
-
-    public void AddTestRankingData(RankingType rankingType)
-    {
-        var tempEntries = new List<RankingEntry>
-        {
-            new RankingEntry("TestUser1", 2000, 0f, DateTime.Now),
-            new RankingEntry("TestUser2", 1900, 1f, DateTime.Now),
-            new RankingEntry("TestUser3", 1800, 0f, DateTime.Now),
-            new RankingEntry("TestUser4", 1700, 3f, DateTime.Now),
-            new RankingEntry("TestUser5", 1600, 0f, DateTime.Now),
-            new RankingEntry("TestUser6", 1500, 4f, DateTime.Now),
-            new RankingEntry("TestUser7", 1400, 0f, DateTime.Now),
-            new RankingEntry("TestUser8", 1300, 0f, DateTime.Now),
-            new RankingEntry("TestUser9", 1200, 5f, DateTime.Now),
-            new RankingEntry("TestUser10", 1100, 2f, DateTime.Now),
-            new RankingEntry("TestUser11", 0, 600f, DateTime.Now),
-            new RankingEntry("TestUser12", 1, 580f, DateTime.Now),
-            new RankingEntry("TestUser13", 0, 560f, DateTime.Now),
-            new RankingEntry("TestUser14", 0, 540f, DateTime.Now),
-            new RankingEntry("TestUser15", 0, 520f, DateTime.Now),
-            new RankingEntry("TestUser16", 0, 500f, DateTime.Now),
-            new RankingEntry("TestUser17", 0, 480f, DateTime.Now),
-            new RankingEntry("TestUser18", 0, 460f, DateTime.Now),
-            new RankingEntry("TestUser19", 0, 440f, DateTime.Now),
-            new RankingEntry("TestUser20", 0, 420f, DateTime.Now)
+            new RankingSaveData(1813, "test1@test.com", "냉철한토끼65"),
+            new RankingSaveData(2721, "test2@test.com", "빛나는호랑이922"),
+            new RankingSaveData(2960, "test3@test.com", "달콤한햄스터489"),
+            new RankingSaveData(2263, "test4@test.com", "따뜻한토끼754"),
+            new RankingSaveData(1552, "test5@test.com", "귀여운여우451"),
+            new RankingSaveData(2086, "test6@test.com", "행복한고양이621"),
+            new RankingSaveData(2065, "test7@test.com", "따뜻한햄스터558"),
+            new RankingSaveData(1211, "test8@test.com", "우주고양이980"),
+            new RankingSaveData(2139, "test9@test.com", "무서운사자570"),
+            new RankingSaveData(1469, "test10@test.com", "우주토끼732"),
+            new RankingSaveData(2786, "test11@test.com", "행복한여우85"),
+            new RankingSaveData(2850, "test12@test.com", "귀여운토끼586"),
+            new RankingSaveData(3100, "test13@test.com", "냉철한늑대739"),
+            new RankingSaveData(3034, "test14@test.com", "냉철한여우560"),
+            new RankingSaveData(2446, "test15@test.com", "빛나는고양이474"),
+            new RankingSaveData(3175, "test16@test.com", "따뜻한여우884"),
+            new RankingSaveData(1056, "test17@test.com", "귀여운곰674"),
+            new RankingSaveData(2492, "test18@test.com", "행복한햄스터538"),
+            new RankingSaveData(1527, "test19@test.com", "미친여우342"),
+            new RankingSaveData(2710, "test20@test.com", "달콤한토끼618"),
+            new RankingSaveData(2869, "test21@test.com", "행복한호랑이271"),
+            new RankingSaveData(2825, "test22@test.com", "행복한곰35"),
+            new RankingSaveData(1045, "test23@test.com", "고요한고양이417"),
+            new RankingSaveData(2503, "test24@test.com", "행복한고양이796"),
+            new RankingSaveData(2992, "test25@test.com", "무서운곰112"),
+            new RankingSaveData(2265, "test26@test.com", "달콤한고양이669"),
+            new RankingSaveData(2060, "test27@test.com", "우주햄스터18"),
+            new RankingSaveData(1108, "test28@test.com", "따뜻한사자117"),
+            new RankingSaveData(1762, "test29@test.com", "미친판다565"),
+            new RankingSaveData(1589, "test30@test.com", "우주고양이491"),
+            new RankingSaveData(2546, "test31@test.com", "귀여운늑대579"),
+            new RankingSaveData(2895, "test32@test.com", "행복한여우38"),
+            new RankingSaveData(3134, "test33@test.com", "미친햄스터637"),
+            new RankingSaveData(1165, "test34@test.com", "미친햄스터526"),
+            new RankingSaveData(3341, "test35@test.com", "따뜻한사자758"),
+            new RankingSaveData(3130, "test36@test.com", "무서운늑대159"),
+            new RankingSaveData(2464, "test37@test.com", "냉철한호랑이995"),
+            new RankingSaveData(1229, "test38@test.com", "달콤한사자524"),
+            new RankingSaveData(1641, "test39@test.com", "귀여운판다495"),
+            new RankingSaveData(2241, "test40@test.com", "고요한여우971"),
+            new RankingSaveData(1936, "test41@test.com", "우주곰490"),
+            new RankingSaveData(1521, "test42@test.com", "무서운여우785"),
+            new RankingSaveData(1584, "test43@test.com", "따뜻한늑대857"),
+            new RankingSaveData(1996, "test44@test.com", "귀여운곰189"),
+            new RankingSaveData(2161, "test45@test.com", "우주독수리75"),
+            new RankingSaveData(1729, "test46@test.com", "귀여운곰394"),
+            new RankingSaveData(2398, "test47@test.com", "미친호랑이739"),
+            new RankingSaveData(2360, "test48@test.com", "따뜻한곰721"),
+            new RankingSaveData(1865, "test49@test.com", "빛나는햄스터343"),
+            new RankingSaveData(3020, "test50@test.com", "냉철한호랑이494"),
+            new RankingSaveData(1697, "test100@test.com", "행복한토끼588"),
         };
-
-        foreach (var entry in tempEntries)
-        {
-            // KillPoint ��ŷ���� Score > 0�� �����͸�, SurvivalTime ��ŷ���� SurvivalTime > 0�� �����͸� �߰�
-            SaveRanking(entry);
-            // if (rankingType == RankingType.KillPoint && entry.Score > 0)
-            //     SaveRanking(entry);
-            // else if (rankingType == RankingType.SurvivalTime && entry.SurvivalTime > 0)
-            //     SaveRanking(entry);
-        }
     }
 }
 
-[Serializable]
-public class RankingDTOListWrapper
+
+public class RankingSaveData
 {
-    public List<RankingEntryDTO> List = new();
+    public int Score;
+    public string Email;
+    public string NickName;
+
+    public RankingSaveData(int score, string email, string ncikName)
+    {
+        Score = score;
+        Email = email;
+        NickName = ncikName;
+    }
 }

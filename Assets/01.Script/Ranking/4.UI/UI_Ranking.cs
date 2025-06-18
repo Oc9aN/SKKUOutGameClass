@@ -46,7 +46,7 @@ public class UI_Ranking : MonoBehaviour
     private void Refresh()
     {
         // DTO정보를 List로 받아서 UI데이터로 변환 후 전달
-        List<RankingEntryDTO> rankings = RankingManager.Instance.GetTopRankings(_sortBy);
+        List<RankingEntryDTO> rankings = RankingEntryManager.Instance.GetTopRankings(_sortBy);
 
         for (int i = 0; i < rankings.Count; i++)
         {
@@ -63,7 +63,7 @@ public class UI_Ranking : MonoBehaviour
             _scroll.UpdateData(_rankingData[i]);
         }
 
-        var currentRanking = RankingManager.Instance.Get();
+        var currentRanking = RankingEntryManager.Instance.Get();
         // 개인 랭킹 정보 표시
         _currentRankingText.text = currentRanking.PlayerNickname;
         _currentNameText.text = currentRanking.PlayerNickname;
