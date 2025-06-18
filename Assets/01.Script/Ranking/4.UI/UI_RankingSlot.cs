@@ -5,17 +5,25 @@ using UnityEngine;
 
 public class RankingSlotData : InfiniteScrollData
 {
-    public int Ranking;
-    public string Name;
+    public int Rank;
+    public string Nickname;
     public float Time;
     public int Score;
 
-    public RankingSlotData(int ranking, string name, float time, int score)
+    public RankingSlotData(RankingDTO data)
     {
-        Ranking = ranking;
-        Name = name;
-        Time = time;
-        Score = score;
+        Rank = data.Rank;
+        Nickname = data.Nickname;
+        Time = data.Time;
+        Score = data.Score;
+    }
+
+    public void SetRankingDTOData(RankingDTO data)
+    {
+        Rank = data.Rank;
+        Nickname = data.Nickname;
+        Time = data.Time;
+        Score = data.Score;
     }
 }
 
@@ -33,8 +41,8 @@ public class UI_RankingSlot : InfiniteScrollItem
         // 데이터 변환하여 등록
         var rankingSlotData = scrollData as RankingSlotData;
         
-        RankingText.text = rankingSlotData?.Ranking.ToString() ?? "-";
-        NameText.text = rankingSlotData?.Name ?? "-";
+        RankingText.text = rankingSlotData?.Rank.ToString() ?? "-";
+        NameText.text = rankingSlotData?.Nickname ?? "-";
         TimeText.text = FloatToFormattedTime(rankingSlotData?.Time ?? 0f);
         ScoreText.text = rankingSlotData?.Score.ToString() ?? "-";
     }

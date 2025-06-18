@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Gpm.Ui;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,8 +33,6 @@ public class UI_Ranking : MonoBehaviour
 
     private List<RankingSlotData> _rankingData;
 
-    private RankingType _sortBy;
-
     private void Start()
     {
         _rankingData = new List<RankingSlotData>();
@@ -46,28 +45,26 @@ public class UI_Ranking : MonoBehaviour
     private void Refresh()
     {
         // DTO정보를 List로 받아서 UI데이터로 변환 후 전달
-        List<RankingEntryDTO> rankings = RankingEntryManager.Instance.GetTopRankings(_sortBy);
+        List<RankingDTO> rankings = RankingManager.Instance.Rankings;
 
         for (int i = 0; i < rankings.Count; i++)
         {
             if (_rankingData.Count <= i)
             {
-                _rankingData.Add(new RankingSlotData(i + 1, rankings[i].PlayerNickname, rankings[i].SurvivalTimeSeconds, rankings[i].Score));
+                _rankingData.Add(new RankingSlotData(rankings[i]));
                 _scroll.InsertData(_rankingData.Last());
             }
 
             // 인게임 중 바뀌는 값만 수정해서 전달
-            _rankingData[i].Name = rankings[i].PlayerNickname;
-            _rankingData[i].Time = rankings[i].SurvivalTimeSeconds;
-            _rankingData[i].Score = rankings[i].Score;
+            _rankingData[i].SetRankingDTOData(rankings[i]);
             _scroll.UpdateData(_rankingData[i]);
         }
 
-        var currentRanking = RankingEntryManager.Instance.Get();
+        var currentRanking = RankingManager.Instance.MyRanking;
         // 개인 랭킹 정보 표시
-        _currentRankingText.text = currentRanking.PlayerNickname;
-        _currentNameText.text = currentRanking.PlayerNickname;
-        _currentTimeText.text = FloatToFormattedTime(currentRanking.SurvivalTimeSeconds);
+        _currentRankingText.text = currentRanking.Rank.ToString();
+        _currentNameText.text = currentRanking.Nickname;
+        _currentTimeText.text = FloatToFormattedTime(currentRanking.Time);
         _currentScoreText.text = currentRanking.Score.ToString();
     }
 
@@ -77,16 +74,16 @@ public class UI_Ranking : MonoBehaviour
         {
             case "점수":
             {
-                _sortBy = RankingType.KillPoint;
+                RankingManager.Instance.Sort(ERankingSortBy.Score);
                 break;
             }
             case "생존시간":
             {
-                _sortBy = RankingType.SurvivalTime;
+                RankingManager.Instance.Sort(ERankingSortBy.Time);
                 break;
             }
         }
-        Debug.Log(_sortBy);
+
         Refresh();
     }
     

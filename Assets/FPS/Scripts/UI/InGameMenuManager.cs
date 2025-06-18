@@ -35,6 +35,7 @@ namespace Unity.FPS.UI
 
         public GameObject AchievementUI;
         public GameObject AttendanceUI;
+        public GameObject RankingUI;
 
         void Start()
         {
@@ -121,6 +122,7 @@ namespace Unity.FPS.UI
                 
                 AchievementUI.SetActive(true);
                 AttendanceUI.SetActive(true);
+                RankingUI.SetActive(true);
             }
             else
             {
@@ -131,6 +133,7 @@ namespace Unity.FPS.UI
                 
                 AchievementUI.SetActive(false);
                 AttendanceUI.SetActive(false);
+                RankingUI.SetActive(false);
             }
 
         }

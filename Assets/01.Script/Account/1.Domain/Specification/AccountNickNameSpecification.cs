@@ -6,7 +6,7 @@ public class AccountNickNameSpecification : ISpecification<String>
     private string _errorMessage;
     
     // 닉네임: 한글 또는 영어로 구성, 2~7자
-    private static readonly Regex NicknameRegex = new Regex(@"^[가-힣a-zA-Z]{2,7}$", RegexOptions.Compiled);
+    private static readonly Regex NicknameRegex = new Regex(@"^[가-힣a-zA-Z0-9]{2,12}$", RegexOptions.Compiled);
 
     // 금지된 닉네임 (비속어 등)
     private static readonly string[] ForbiddenNicknames = { "바보", "멍청이", "운영자", "김홍일" };
@@ -21,7 +21,7 @@ public class AccountNickNameSpecification : ISpecification<String>
 
         if (!NicknameRegex.IsMatch(value))
         {
-            _errorMessage = "닉네임은 2자 이상 7자 이하의 한글 또는 영문이어야 합니다.";
+            _errorMessage = "닉네임은 2자 이상 12자 이하의 한글 또는 영문이어야 합니다.";
             return false;
         }
         
